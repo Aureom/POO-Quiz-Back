@@ -5,6 +5,7 @@ import br.ufu.quiz.pooatividadefinalquiz.enums.Difficulty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
@@ -16,8 +17,8 @@ import javax.persistence.*;
 public class Question {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue
+    private UUID id;
 
     private String question;
 

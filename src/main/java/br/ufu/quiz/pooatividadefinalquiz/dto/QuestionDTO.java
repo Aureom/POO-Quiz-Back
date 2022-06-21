@@ -4,11 +4,15 @@ import br.ufu.quiz.pooatividadefinalquiz.entities.Question;
 import br.ufu.quiz.pooatividadefinalquiz.enums.Category;
 import br.ufu.quiz.pooatividadefinalquiz.enums.Difficulty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Data
+@NoArgsConstructor
 public class QuestionDTO {
 
-    private long id;
+    private UUID id;
     private String question;
     private String optionA, optionB, optionC, optionD;
     private Difficulty difficulty;

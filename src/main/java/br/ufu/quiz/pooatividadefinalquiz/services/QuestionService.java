@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class QuestionService {
@@ -43,7 +44,7 @@ public class QuestionService {
         return new QuestionDTO(newQuestion);
     }
 
-    public QuestionDTO delete(Long id) {
+    public QuestionDTO delete(UUID id) {
         Optional<Question> question = questionRepository.findById(id);
 
         if (question.isEmpty()) {
@@ -56,7 +57,7 @@ public class QuestionService {
         return new QuestionDTO(deletedQuestion);
     }
 
-    public QuestionDTO findById(Long id) {
+    public QuestionDTO findById(UUID id) {
         Optional<Question> question = questionRepository.findById(id);
 
         if (question.isEmpty()) {

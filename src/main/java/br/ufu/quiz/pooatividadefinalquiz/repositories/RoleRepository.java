@@ -9,8 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface RoleRepository extends JpaRepository<User, UUID> {
 
-    @Query("SELECT user FROM User user WHERE user.email = :email")
-    Optional<User> findByEmail(String email);
+
 }
