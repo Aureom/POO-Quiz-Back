@@ -1,13 +1,14 @@
 package br.ufu.quiz.pooatividadefinalquiz.controllers;
 
-import br.ufu.quiz.pooatividadefinalquiz.dto.QuestionDTO;
+import br.ufu.quiz.pooatividadefinalquiz.controllers.dto.QuestionDTO;
+import br.ufu.quiz.pooatividadefinalquiz.controllers.request.CreateQuestionRequest;
 import br.ufu.quiz.pooatividadefinalquiz.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -22,14 +23,10 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody QuestionDTO questionDTO) {
-        QuestionDTO question = this.questionService.save(questionDTO);
+    public ResponseEntity<QuestionDTO> save(@Valid @RequestBody CreateQuestionRequest createQuestionRequest) {
+        QuestionDTO questionDTO = questionService.save(createQuestionRequest.toQuestion());
 
-        if (question == null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Question already exists");
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(question);
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionDTO);
     }
 
     @GetMapping("/{id}")

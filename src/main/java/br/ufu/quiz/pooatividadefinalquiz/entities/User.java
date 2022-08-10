@@ -3,7 +3,6 @@ package br.ufu.quiz.pooatividadefinalquiz.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -11,22 +10,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private String name;
+    private String username;
 
-    @Column(unique = true)
-    private String email;
+    private Float score;
 
-    private String password;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
-
+    public User(String username) {
+        this.id = UUID.randomUUID();
+        this.username = username;
+        this.score = 0F;
+    }
 }

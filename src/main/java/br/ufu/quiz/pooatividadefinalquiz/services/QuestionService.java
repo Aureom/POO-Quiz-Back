@@ -1,14 +1,12 @@
 package br.ufu.quiz.pooatividadefinalquiz.services;
 
-import br.ufu.quiz.pooatividadefinalquiz.dto.QuestionDTO;
-import br.ufu.quiz.pooatividadefinalquiz.dto.UserDTO;
+import br.ufu.quiz.pooatividadefinalquiz.controllers.dto.QuestionDTO;
 import br.ufu.quiz.pooatividadefinalquiz.entities.Question;
-import br.ufu.quiz.pooatividadefinalquiz.entities.User;
 import br.ufu.quiz.pooatividadefinalquiz.repositories.QuestionRepository;
-import br.ufu.quiz.pooatividadefinalquiz.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,26 +20,16 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    public QuestionDTO save(QuestionDTO questionDTO) {
-        Optional<Question> question = questionRepository.findById(questionDTO.getId());
+    public QuestionDTO save(Question question) {
+        Optional<Question> optionalQuestion = questionRepository.findByQuestion(question.getQuestion());
 
-        if (question.isPresent()) {
+        if (optionalQuestion.isPresent()) {
             throw new IllegalArgumentException("Question already exists");
         }
 
-        Question newQuestion = Question.builder()
-                .question(questionDTO.getQuestion())
-                .optionA(questionDTO.getOptionA())
-                .optionB(questionDTO.getOptionB())
-                .optionC(questionDTO.getOptionC())
-                .optionD(questionDTO.getOptionD())
-                .difficulty(questionDTO.getDifficulty())
-                .category(questionDTO.getCategory())
-                .build();
+        this.questionRepository.save(question);
 
-        this.questionRepository.save(newQuestion);
-
-        return new QuestionDTO(newQuestion);
+        return new QuestionDTO(question);
     }
 
     public QuestionDTO delete(UUID id) {
@@ -67,15 +55,16 @@ public class QuestionService {
         return new QuestionDTO(question.get());
     }
 
-// TODO: Implementar o método findRandomQuestion
-//
-//    public QuestionDTO findRandomQuestionByDifficulty(String difficulty) {
-//        Optional<Question> question = questionRepository.findRandomQuestionByDifficulty(difficulty);
-//
-//        if (question.isEmpty()) {
-//            throw new IllegalArgumentException("Question not found");
-//        }
-//
-//        return new QuestionDTO(question.get());
-//    }
+
+    public Question findRandomQuestion() {
+        List<Question> question = questionRepository.findAll();
+
+        if (question.isEmpty()) {
+            return null;
+        }
+
+        // get a random question from the list
+        int randomIndex = (int) (Math.random() * question.size());
+        return question.get(randomIndex);
+    }
 }

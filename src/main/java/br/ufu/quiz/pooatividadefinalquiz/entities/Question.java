@@ -1,8 +1,7 @@
 package br.ufu.quiz.pooatividadefinalquiz.entities;
 
-import br.ufu.quiz.pooatividadefinalquiz.enums.Category;
-import br.ufu.quiz.pooatividadefinalquiz.enums.Difficulty;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -13,7 +12,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "questions")
 public class Question {
 
     @Id
@@ -24,11 +22,6 @@ public class Question {
 
     private String optionA, optionB, optionC, optionD;
 
-    private String correctAnswer;
-
-    @Enumerated(EnumType.STRING)
-    private Difficulty difficulty;
-
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    @Range(min = 0, max = 3)
+    private int correctAnswer;
 }
